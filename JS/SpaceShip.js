@@ -2,6 +2,7 @@ class SpaceShip extends GameObject {
     constructor(x = 0, y = 0, z = 0) 
 	{
         super(x,y,z);
+        this.shootCoolDown = 0;
         this.speedX = 400;
         this.speedY = -400;
         this.width = 120;
@@ -20,10 +21,11 @@ class SpaceShip extends GameObject {
 	{ 
         this.x = (canvas.width - this.width) / 2;
         this.y = canvas.height * 7/8;
+        this.shootCoolDown = 0;
 	}
-
     update(dt) 
 	{
+        this.shootCoolDown-=dt;
         if(keysDown["68"])
         {
             this.x += this.speedX * dt;
@@ -40,8 +42,9 @@ class SpaceShip extends GameObject {
         {
             this.x = canvas.width - this.width;
         }
-        if(keysDown["32"])
-        {
+        if(keysDown["32"] && this.shootCoolDown <= 0)
+        {    
+            keysDown["32"] = false;
             this.shoot();
         }
 	}
@@ -53,8 +56,24 @@ class SpaceShip extends GameObject {
             ctx.drawImage(this.image,this.x,this.y,this.width,this.height)
 		}
 	}
-    shoot(ctx)
+    shoot()
     {
-
+        let m_PlayerProjectile = new PlayerProjectile(this.x+24,this.y,this.z);
+        addGameObject(m_PlayerProjectile);
+        console.log("New projectile");
+        this.shootCoolDown = 3; 
+    }
+    hitByProjectile()
+    {
+        if(!this.isInitialized || !this.isActive) return;
+        if(gameLifePoints != 0)
+        {
+            this.reset();
+            gameLifePoints--;
+        }
+    }
+    reset()
+    {
+        this.start();
     }
 }
