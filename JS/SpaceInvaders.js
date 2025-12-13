@@ -45,6 +45,7 @@ function start() {
 
 let gameLifePoints = 3;
 let timeToReload = 3;
+
 function update(dt) {
     if(gameLifePoints>0){
         for (let go of gameObjects) {
@@ -116,5 +117,89 @@ function main(timestamp) {
 }
 let m_SpaceShip = new SpaceShip();
 addGameObject(m_SpaceShip);
+
+//Funcionalidades de invaders
+let invaders = [] //Se crea un array para los invaders
+let numInvadersDead = 0;
+
+
+function createInvaders()
+{
+    //Parametros generales
+    let invaderScale = 1.8 
+    let numberOfAliensRow = 11
+    let spaceBetweenRows = 64;
+    let displacementY = 20;
+
+    //Parametros para el invasor A
+    let invaderAWidth = 16 * invaderScale;
+    let invaderAHeight = 16 * invaderScale;
+    let numRowsinvaderA = 1;
+
+    //Parametros de la posicion del invasor A
+    let spaceBetweenInvadersA = invaderAWidth / 2;
+    let displacementXA = 20; //Se asigna espacio del primer cuadrante
+
+    //Colocar invasores A en su posicion
+    for(let rowA = 0; rowA< numRowsinvaderA ; rowA++)
+    {
+        for(let colA = 0; colA < numberOfAliensRow; colA++)
+        {
+            const x = colA * (invaderAWidth + spaceBetweenInvadersA) + displacementXA
+            const y = rowA + 1 * (invaderAHeight + spaceBetweenRows) + displacementY
+            const invader = new Invader(x, y, invaderScale, rowA);
+            invaders.push(invader)
+            addGameObject(invader)
+        }
+    }
+
+    //Parametros para el invasor B
+    let invaderBWidth = 22 * invaderScale;
+    let invaderBHeight = 16 * invaderScale;
+    let numRowsinvaderB = 2;
+
+    //Parametros de la posicion del invasor B
+    let spaceBetweenInvadersB = invaderBWidth / 2;
+    let displacementXB = 20; //Se asigna espacio del primer cuadrante
+
+    //Colocar invasores B en su posicion
+    for(let rowB = 0; rowB< numRowsinvaderB; rowB++)
+    {
+        for(let colB = 0; colB < numberOfAliensRow; colB++)
+        {
+            const x = colB *(invaderBWidth + spaceBetweenInvadersB) + displacementXB
+            const y = (rowB + 1) *(invaderBHeight + spaceBetweenRows) + displacementY //Le sumamos a rowC 1 lineas, ya que empieza en la linea 1 (empezando desde el 0)
+            const invader = new Invader(x, y, invaderScale, rowB+1);
+            invaders.push(invader)
+            addGameObject(invader)
+        }
+    }
+
+    //Parametros para el invasor C
+    let invaderCWidth = 24 * invaderScale;
+    let invaderCHeight = 16 * invaderScale;
+    let numRowsinvaderC = 2;
+    //Parametros de la posicion del invasor C
+    let spaceBetweenInvadersC = invaderCWidth / 2;
+    let displacementXC = 20; //Se asigna espacio del primer cuadrante
+
+    //Colocar invasores C en su posicion
+    for(let rowC = 0; rowC< numRowsinvaderC; rowC++)
+    {
+        for(let colC = 0; colC < numberOfAliensRow; colC++)
+        {
+            const x = colC *(invaderCWidth + spaceBetweenInvadersC) + displacementXC
+            const y = (rowC + 3) *(invaderCHeight + spaceBetweenRows) + displacementY //Le sumamos a rowC 3 lineas, ya que empieza en la linea 3 (empezando desde el 0)
+            const invader = new Invader(x, y, invaderScale, rowC+3);
+            invaders.push(invader)
+            addGameObject(invader)
+        }
+    }
+
+}
+
+createInvaders();
+
+
 start();
 requestAnimationFrame(main);
