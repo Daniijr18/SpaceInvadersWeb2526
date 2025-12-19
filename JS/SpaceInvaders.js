@@ -84,6 +84,11 @@ function render() {
         ctx.textBaseline = "top"
         ctx.fillText("YOU LOST", canvas.width/2, canvas.height/2);
     }
+    ctx.fillStyle = "rgb(255,255,255)";
+	ctx.font = "24px Helvetica";
+	ctx.textAlign = "left";
+	ctx.textBaseLine = "top";
+	ctx.fillText("Score: " + numInvadersDead, 32, 32);
 }
 function loadImage(src,callback)
 {
@@ -115,7 +120,7 @@ function main(timestamp) {
     lastTime = timestamp;
     requestAnimationFrame(main);
 }
-let m_SpaceShip = new SpaceShip();
+let m_SpaceShip = new SpaceShip(canvas.width/2,canvas.height/1.4,0);
 addGameObject(m_SpaceShip);
 
 //Funcionalidades de invaders
@@ -199,7 +204,22 @@ function createInvaders()
 }
 
 createInvaders();
-
-
+let shields = [];
+function CreateShields()
+{
+    let shieldScale = 2;
+    let shieldWidth = 48 * shieldScale; 
+    let shieldHeight = 48 * shieldScale;
+    let spaceBetweenShields = canvas.width/4; 
+    let shieldsNum = 4;
+    for(let i = 0; i<shieldsNum; i++)
+    {
+        const x = i *(shieldWidth + spaceBetweenShields);
+        const shield = new Shield(x, canvas.height/1.4, shieldScale, i+3);
+        shields.push(shield);
+        addGameObject(shield);
+    }
+}
+CreateShields();
 start();
 requestAnimationFrame(main);

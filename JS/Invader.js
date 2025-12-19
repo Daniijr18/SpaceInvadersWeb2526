@@ -187,7 +187,7 @@ class Invader extends GameObject {
 				}
 				else
 				{
-					SpaceInvaders.numInvadersDead++;
+					numInvadersDead++;
 					//Desactivar/ Destruir gameObject
 					this.isActive = false
 					removeGameObject(this);

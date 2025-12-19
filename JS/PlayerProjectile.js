@@ -23,6 +23,17 @@ class PlayerProjectile extends GameObject
         if(this.isInitialized && this.isActive)
         {
             this.y += this.speedY * dt;
+            for (let invader of invaders) 
+			{
+				if(collisionRectCollision(this, invader))
+				{
+					if(invader.isActive)
+					{
+                        this.isActive = false;
+			            invader.hitByShot();
+					}
+				}
+			}
         }   
     }
     render(ctx)

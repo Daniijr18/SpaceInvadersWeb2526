@@ -7,13 +7,31 @@ class SpaceShip extends GameObject {
         this.speedY = -400;
         this.width = 120;
         this.height = 20;
-        this.image = null;
-        loadImage("Images/space_ship.png", (img) => {
+        this.currentImage = null;
+        this.images = [];
+        let ammountOfImagesToLoadPlayer = 2;
+        const onImageLoaded = () =>
+        {
+            ammountOfImagesToLoadPlayer--;
+            if(ammountOfImagesToLoadPlayer == 0)
+            {
+                this.isInitialized = true;
+            }
+        }
+        loadImage("Images/space_ship.png", (img) => 
+        {
             const scale = 2;
-            this.image = img;
+            this.currentImage = img;
             this.width = img.width * scale;
             this.height = img.height * scale;
             this.isInitialized = true;
+            this.images[0] = img;
+            onImageLoaded();
+        });
+        loadImage("Images/player_explosion.png", (img) => 
+        {
+            this.images[1] = img;
+            onImageLoaded();
         });
     }
 
@@ -53,7 +71,7 @@ class SpaceShip extends GameObject {
 	{ 
 		if(this.isInitialized && this.isActive)
 		{
-            ctx.drawImage(this.image,this.x,this.y,this.width,this.height)
+            ctx.drawImage(this.currentImage,this.x,this.y,this.width,this.height)
 		}
 	}
     shoot()
@@ -63,13 +81,14 @@ class SpaceShip extends GameObject {
         console.log("New projectile");
         this.shootCoolDown = 3; 
     }
-    hitByProjectile()
+    hitByShoot()
     {
         if(!this.isInitialized || !this.isActive) return;
         if(gameLifePoints != 0)
         {
             this.reset();
             gameLifePoints--;
+            this.currentImage = this.images[1];
         }
     }
     reset()
