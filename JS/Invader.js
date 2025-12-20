@@ -30,9 +30,9 @@ class Invader extends GameObject {
 				if(ammountOfImagesToLoad == 0)
 				{
 					this.isInitialized = true
-					console.log(this.images[0])
-					console.log(this.images[1])
-					console.log(this.images[2])
+					//console.log(this.images[0])
+					//console.log(this.images[1])
+					//console.log(this.images[2])
 				}
 			}
 
@@ -69,9 +69,9 @@ class Invader extends GameObject {
 				if(ammountOfImagesToLoad == 0)
 				{
 					this.isInitialized = true
-					console.log(this.images[0])
-					console.log(this.images[1])
-					console.log(this.images[2])
+					//console.log(this.images[0])
+					//console.log(this.images[1])
+					//console.log(this.images[2])
 				}
 			}
 
@@ -108,9 +108,9 @@ class Invader extends GameObject {
 				if(ammountOfImagesToLoad == 0)
 				{
 					this.isInitialized = true
-					console.log(this.images[0])
-					console.log(this.images[1])
-					console.log(this.images[2])
+					//console.log(this.images[0])
+					//console.log(this.images[1])
+					//console.log(this.images[2])
 				}
 			}
 

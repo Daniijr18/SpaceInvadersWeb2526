@@ -34,7 +34,27 @@ class PlayerProjectile extends GameObject
 					}
 				}
 			}
-        }   
+            for (let shield of shields) 
+            {
+                const sliceWidth = shield.width / 3;
+                const sliceHeight = shield.height / 3;
+                for (const slice of shield.slices) {
+                    if (!slice.alive) continue;
+                    const sliceRect = {
+                        x: shield.x + slice.col * sliceWidth,
+                        y: shield.y + slice.row * sliceHeight,
+                        width: sliceWidth,
+                        height: sliceHeight
+                    };
+
+                    if (collisionRectCollision(this, sliceRect)) {
+                        this.isActive = false;
+                        shield.hitByShot(slice);
+                        break;
+                    }
+                }
+            }  
+        } 
     }
     render(ctx)
     {

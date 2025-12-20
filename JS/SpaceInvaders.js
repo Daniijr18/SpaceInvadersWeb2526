@@ -215,7 +215,7 @@ function CreateShields()
     for(let i = 0; i<shieldsNum; i++)
     {
         const x = i *(shieldWidth + spaceBetweenShields);
-        const shield = new Shield(x, canvas.height/1.4, shieldScale, i+3);
+        const shield = new Shield(x, canvas.height/1.4, shieldScale, i+3, ctx);
         shields.push(shield);
         addGameObject(shield);
     }
