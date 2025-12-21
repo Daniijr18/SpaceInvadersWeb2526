@@ -176,7 +176,6 @@ class Invader extends GameObject {
 			{
 				this.moveX(dt)
 				//Dispara
-
 			}
 			if(this.isAlive == false) //Si esta muerto explota durante 0,5 segundos y se destruye
 			{

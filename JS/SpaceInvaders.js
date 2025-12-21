@@ -133,8 +133,10 @@ function createInvaders()
     //Parametros generales
     let invaderScale = 1.8 
     let numberOfAliensRow = 11
-    let spaceBetweenRows = 64;
-    let displacementY = 20;
+    let spaceBetweenRows = 50;
+    let displacementY = 40;
+    let spaceBetweenInvaders = 68;
+    let spawnSpaceX = 375;
 
     //Parametros para el invasor A
     let invaderAWidth = 16 * invaderScale;
@@ -142,8 +144,8 @@ function createInvaders()
     let numRowsinvaderA = 1;
 
     //Parametros de la posicion del invasor A
-    let spaceBetweenInvadersA = invaderAWidth / 2;
-    let displacementXA = 20; //Se asigna espacio del primer cuadrante
+    let spaceBetweenInvadersA = spaceBetweenInvaders - 2 * 16.5;
+    let displacementXA = spawnSpaceX - 16; //Se asigna espacio del primer cuadrante
 
     //Colocar invasores A en su posicion
     for(let rowA = 0; rowA< numRowsinvaderA ; rowA++)
@@ -151,7 +153,7 @@ function createInvaders()
         for(let colA = 0; colA < numberOfAliensRow; colA++)
         {
             const x = colA * (invaderAWidth + spaceBetweenInvadersA) + displacementXA
-            const y = rowA + 1 * (invaderAHeight + spaceBetweenRows) + displacementY
+            const y = rowA  * (invaderAHeight + spaceBetweenRows) + displacementY
             const invader = new Invader(x, y, invaderScale, rowA);
             invaders.push(invader)
             addGameObject(invader)
@@ -164,8 +166,8 @@ function createInvaders()
     let numRowsinvaderB = 2;
 
     //Parametros de la posicion del invasor B
-    let spaceBetweenInvadersB = invaderBWidth / 2;
-    let displacementXB = 20; //Se asigna espacio del primer cuadrante
+    let spaceBetweenInvadersB = spaceBetweenInvaders - 2 * 22;
+    let displacementXB = spawnSpaceX - 22; //Se asigna espacio del primer cuadrante
 
     //Colocar invasores B en su posicion
     for(let rowB = 0; rowB< numRowsinvaderB; rowB++)
@@ -185,8 +187,8 @@ function createInvaders()
     let invaderCHeight = 16 * invaderScale;
     let numRowsinvaderC = 2;
     //Parametros de la posicion del invasor C
-    let spaceBetweenInvadersC = invaderCWidth / 2;
-    let displacementXC = 20; //Se asigna espacio del primer cuadrante
+    let spaceBetweenInvadersC = spaceBetweenInvaders - 2 * 24;
+    let displacementXC = spawnSpaceX -  24; //Se asigna espacio del primer cuadrante
 
     //Colocar invasores C en su posicion
     for(let rowC = 0; rowC< numRowsinvaderC; rowC++)
