@@ -46,10 +46,25 @@ function start() {
 let gameLifePoints = 3;
 let timeToReload = 3;
 
-function update(dt) {
-    if(gameLifePoints>0){
-        for (let go of gameObjects) {
+function update(dt) 
+{
+    if(gameLifePoints>0)
+    {
+        for (let go of gameObjects) 
+        {
 		    go.update(dt);
+        }
+        if (needsToChangeDirection)
+        {
+            for (let invader of invaders)
+            {
+                if (invader.isActive && invader.isAlive)
+                {
+                    invader.y += 5;             
+                    invader.movementX *= -1;
+                }   
+            }
+            needsToChangeDirection = false;
         }
     }
     else{
@@ -126,6 +141,9 @@ addGameObject(m_SpaceShip);
 //Funcionalidades de invaders
 let invaders = [] //Se crea un array para los invaders
 let numInvadersDead = 0;
+let needsToChangeDirection = false;
+let numInvaders = 55;
+let movementY = 12;
 
 
 function createInvaders()

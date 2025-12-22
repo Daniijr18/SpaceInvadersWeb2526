@@ -10,7 +10,6 @@ class Invader extends GameObject {
 
 		this.movingTimer = 1
 		this.movementX = 12;
-		this.movementY = 0;
 
 		this.mapLimit = 0;
 		this.isCollidingWithLimit = false;
@@ -20,7 +19,7 @@ class Invader extends GameObject {
 		this.scale = scale
 
 		this.isAlive = true;
-
+		this.isFirstImageActive = true;
 
 		let ammountOfImagesToLoad = 3
 
@@ -173,13 +172,13 @@ class Invader extends GameObject {
 
     update(dt) 
 	{
-		console.log("Invader updates1");
+		//console.log("Invader updates1");
 		if(this.isInitialized && this.isActive) //Si esta vivo se mueve y dispara
 		{
-			console.log("Invader updates2");
+			//console.log("Invader updates2");
 			if(this.isAlive == true)
 			{
-				console.log("Invader updates3");
+				//console.log("Invader updates3");
 				this.moveX(dt)
 				//Dispara
 			}
@@ -217,16 +216,23 @@ class Invader extends GameObject {
         if(this.movingTimer <=0)
         {
             this.x += this.movementX;
+			if(this.isFirstImageActive)
+			{
+				this.currentImage = this.images[0]
+				this.isFirstImageActive = false;
+			}
+			else
+				{
+				this.currentImage = this.images[1];
+				this.isFirstImageActive = true;
+			}
 			//Cambiar el sprite al moverse
 			this.movingTimer = 1 -numInvadersDead * 0.015; //La velocidad empieza en 0 cuando el numero de invasores son 55 conforme van muriendo invasores, la velocidad aumenta
-			if(this.x <=0 || this.x >=720)
+			if (this.x <= 0 || this.x + this.width >= canvas.width)
 			{
-				this.isCollidingWithLimit = true; //Es util ya que de este modo sabemos que está colisionando con el límite, 
-				//así desde el main podremos ver que naves están colisionando con el límite para así moverlos en la 
-				//posición Y. (Si lo movemos directamente puede que movamos varias naves a la vez, por lo que si hay 
-				//naves pares que colisionan, no cambiaría nada, y si hay naves pares colisionando cambiaría la posición)
-			}
-				
+    			needsToChangeDirection = true;
+    			this.isCollidingWithLimit = true;
+			}		
 		}
     }
 }
