@@ -33,48 +33,18 @@ function addGameObject(go) {
 function removeGameObject(go){
     let index = gameObjects.indexOf(go);
     gameObjects.splice(index,1);
-    //index = m_Bricks.indexOf(go);
-    //m_Bricks.splice(index,1);
 }
-
+//Variables
+let gameLifePoints = 3;
+let timeToReload = 3;
+let invadersShootCooldown = 0;
 function start() {
+    invadersShootCooldown = 0;
     for (let go of gameObjects) {
         go.start();
     }
 }
 
-let gameLifePoints = 3;
-let timeToReload = 3;
-
-function update(dt) 
-{
-    if(gameLifePoints>0)
-    {
-        for (let go of gameObjects) 
-        {
-		    go.update(dt);
-        }
-        if (needsToChangeDirection)
-        {
-            for (let invader of invaders)
-            {
-                if (invader.isActive && invader.isAlive)
-                {
-                    invader.y += 5;             
-                    invader.movementX *= -1;
-                }   
-            }
-            needsToChangeDirection = false;
-        }
-    }
-    else{
-        timeToReload -= dt;
-        if(timeToReload<0)
-        {
-            location.reload();
-        }
-    }
-}
 function render() {
     // Background
     if (tileReady) {
@@ -139,7 +109,8 @@ let m_SpaceShip = new SpaceShip(canvas.width/2,canvas.height/1.4,0);
 addGameObject(m_SpaceShip);
 
 //Funcionalidades de invaders
-let invaders = [] //Se crea un array para los invaders
+let invaders = []; //Se crea un array para los invaders
+let frontInvaders = []; //Se crea un array para los invaders que pueden disparar
 let numInvadersDead = 0;
 let needsToChangeDirection = false;
 let numInvaders = 55;
@@ -173,6 +144,8 @@ function createInvaders()
             const x = colA * (invaderAWidth + spaceBetweenInvadersA) + displacementXA
             const y = rowA  * (invaderAHeight + spaceBetweenRows) + displacementY
             const invader = new Invader(x, y, invaderScale, rowA);
+            invader.row = rowA;
+            invader.column = colA;
             invaders.push(invader)
             addGameObject(invader)
         }
@@ -195,6 +168,8 @@ function createInvaders()
             const x = colB *(invaderBWidth + spaceBetweenInvadersB) + displacementXB
             const y = (rowB + 1) *(invaderBHeight + spaceBetweenRows) + displacementY //Le sumamos a rowC 1 lineas, ya que empieza en la linea 1 (empezando desde el 0)
             const invader = new Invader(x, y, invaderScale, rowB+1);
+            invader.row = rowB + 1;
+            invader.column = colB;
             invaders.push(invader)
             addGameObject(invader)
         }
@@ -216,6 +191,8 @@ function createInvaders()
             const x = colC *(invaderCWidth + spaceBetweenInvadersC) + displacementXC
             const y = (rowC + 3) *(invaderCHeight + spaceBetweenRows) + displacementY //Le sumamos a rowC 3 lineas, ya que empieza en la linea 3 (empezando desde el 0)
             const invader = new Invader(x, y, invaderScale, rowC+3);
+            invader.row = rowC + 3;
+            invader.column = colC;
             invaders.push(invader)
             addGameObject(invader)
         }
@@ -229,7 +206,6 @@ function CreateShields()
 {
     let shieldScale = 2;
     let shieldWidth = 48 * shieldScale; 
-    let shieldHeight = 48 * shieldScale;
     let spaceBetweenShields = canvas.width/4; 
     let shieldsNum = 4;
     for(let i = 0; i<shieldsNum; i++)
@@ -240,6 +216,75 @@ function CreateShields()
         addGameObject(shield);
     }
 }
+function GetFrontInvaders()
+{
+    let rowsNum = 5;
+    let colNum = 11;
+    let currentFrontInvaders = [];
+
+    for (let col = 0; col < colNum; col++) {
+        let frontAliveInvader = null;
+        for (let row = rowsNum - 1; row >= 0; row--) {
+            let currentInvader = null;
+            for(var i=0; i<invaders.length;i++)
+            {
+                if(
+                    invaders[i].column == col &&
+                    invaders[i].row == row &&
+                    invaders[i].isAlive
+                )
+                {
+                    currentInvader = invaders[i];
+                }
+            }
+            if (currentInvader) {
+                frontAliveInvader = currentInvader;
+                break;
+            }
+        }
+        if (frontAliveInvader) {
+            currentFrontInvaders.push(frontAliveInvader);
+        }
+    }
+    return currentFrontInvaders; 
+}
 CreateShields();
+function update(dt) 
+{
+    invadersShootCooldown -= dt;
+    if(gameLifePoints>0)
+    {
+        for (let go of gameObjects) 
+        {
+		    go.update(dt);
+        }
+        if (needsToChangeDirection)
+        {
+            for (let invader of invaders)
+            {
+                if (invader.isActive && invader.isAlive)
+                {
+                    invader.y += 5;             
+                    invader.movementX *= -1;
+                }   
+            }
+            needsToChangeDirection = false;
+        }
+        if(invadersShootCooldown <= 0)
+        {
+            frontInvaders = GetFrontInvaders();
+            let invaderShooterIndex = Math.floor(Math.random() * frontInvaders.length);
+            frontInvaders[invaderShooterIndex].invaderShoot();
+            invadersShootCooldown = 1.5;
+        }
+    }
+    else{
+        timeToReload -= dt;
+        if(timeToReload<0)
+        {
+            location.reload();
+        }
+    }
+}
 start();
 requestAnimationFrame(main);

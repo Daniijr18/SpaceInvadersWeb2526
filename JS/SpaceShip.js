@@ -9,6 +9,7 @@ class SpaceShip extends GameObject {
         this.height = 20;
         this.currentImage = null;
         this.images = [];
+        this.deadTimerPlayer = 0.5;
         let ammountOfImagesToLoadPlayer = 2;
         const onImageLoaded = () =>
         {
@@ -37,12 +38,27 @@ class SpaceShip extends GameObject {
 
     start() 
 	{ 
+        this.isAlive = true;
+        this.currentImage = this.images[0];
         this.x = (canvas.width - this.width) / 2;
         this.y = canvas.height * 7/8;
         this.shootCoolDown = 0;
+        this.deadTimer = 0.5;
 	}
     update(dt) 
 	{
+        if(this.isAlive == false)
+		{
+			if(this.deadTimer >= 0) 
+			{
+				this.deadTimer -= dt;
+				this.currentImage = this.images[1];
+			}
+            else
+            {
+                this.reset();
+            }
+		}
         this.shootCoolDown-=dt;
         if(keysDown["68"])
         {
@@ -65,8 +81,7 @@ class SpaceShip extends GameObject {
             keysDown["32"] = false;
             this.shoot();
         }
-	}
-
+    }
     render(ctx) 
 	{ 
 		if(this.isInitialized && this.isActive)
@@ -81,15 +96,15 @@ class SpaceShip extends GameObject {
         console.log("New projectile");
         this.shootCoolDown = 1.5; 
     }
-    hitByShoot()
+    hitByShot()
     {
         if(!this.isInitialized || !this.isActive) return;
         if(gameLifePoints != 0)
         {
-            this.reset();
+            this.isAlive = false;
             gameLifePoints--;
-            this.currentImage = this.images[1];
         }
+        
     }
     reset()
     {

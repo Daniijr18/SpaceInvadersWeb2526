@@ -2,13 +2,16 @@ class Invader extends GameObject {
     constructor(x, y, scale, row, z = 0) 
 	{
        	super(x, y, z) //This calls the constructor function inside GameObject class
-        this.width = 120
-        this.height = 20
+        this.width = 120;
+        this.height = 20;
 
-		this.lifePoints = 1
-		this.deadTimer = 0.5
+		this.lifePoints = 1;
+		this.deadTimer = 0.5;
 
-		this.movingTimer = 1
+		this.row = row;
+        this.column = 0;
+
+		this.movingTimer = 1;
 		this.movementX = 12;
 
 		this.mapLimit = 0;
@@ -22,8 +25,7 @@ class Invader extends GameObject {
 		this.isFirstImageActive = true;
 
 		let ammountOfImagesToLoad = 3
-
-		if(row == 0)
+		if(this.row == 0)
 		{
 			//Se renderiza la imagen del Invader A
 			const onImageLoaded = () =>
@@ -159,7 +161,7 @@ class Invader extends GameObject {
 	hitByShot()
 	{
 		if(!this.isInitialized ||!this.isActive) return
-		this.lifePoints --
+		this.lifePoints --;
 		if(this.lifePoints == 0)
 		{
 			this.isAlive = false;
@@ -181,6 +183,7 @@ class Invader extends GameObject {
 				//console.log("Invader updates3");
 				this.moveX(dt)
 				//Dispara
+
 			}
 			if(this.isAlive == false) //Si esta muerto explota durante 0,5 segundos y se destruye
 			{
@@ -208,6 +211,13 @@ class Invader extends GameObject {
 		}
 	}
 
+	invaderShoot()
+	{
+		let m_InvaderProjectile = new InvaderProjectile(this.x,this.y,this.z);
+        addGameObject(m_InvaderProjectile);
+        console.log("New invader projectile");
+        this.shootCoolDown = 1.5; 
+	}
 
     moveX(dt)
     {
