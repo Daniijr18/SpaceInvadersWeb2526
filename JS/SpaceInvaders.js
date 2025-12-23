@@ -34,7 +34,8 @@ function removeGameObject(go){
     let index = gameObjects.indexOf(go);
     gameObjects.splice(index,1);
 }
-//Variables
+
+
 let gameLifePoints = 3;
 let timeToReload = 3;
 let invadersShootCooldown = 0;
@@ -46,7 +47,6 @@ function start() {
 }
 
 function render() {
-    // Background
     if (tileReady) {
         ctx.fillStyle = bgPattern;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -55,7 +55,6 @@ function render() {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    // Render in z-order
     gameObjects.sort((a, b) => a.z - b.z);
 
     for (let go of gameObjects) {
@@ -108,9 +107,9 @@ function main(timestamp) {
 let m_SpaceShip = new SpaceShip(canvas.width/2,canvas.height/1.4,0);
 addGameObject(m_SpaceShip);
 
-//Funcionalidades de invaders
-let invaders = []; //Se crea un array para los invaders
-let frontInvaders = []; //Se crea un array para los invaders que pueden disparar
+
+let invaders = []; 
+let frontInvaders = []; 
 let numInvadersDead = 0;
 let needsToChangeDirection = false;
 let numInvaders = 55;
@@ -121,7 +120,6 @@ let hasReachTheFloor = false;
 
 function createInvaders()
 {
-    //Parametros generales
     let invaderScale = 1.8 
     let numberOfAliensRow = 11
     let spaceBetweenRows = 50;
@@ -129,16 +127,13 @@ function createInvaders()
     let spaceBetweenInvaders = 68;
     let spawnSpaceX = 375;
 
-    //Parametros para el invasor A
     let invaderAWidth = 16 * invaderScale;
     let invaderAHeight = 16 * invaderScale;
     let numRowsinvaderA = 1;
 
-    //Parametros de la posicion del invasor A
     let spaceBetweenInvadersA = spaceBetweenInvaders - 2 * 16.5;
-    let displacementXA = spawnSpaceX - 16; //Se asigna espacio del primer cuadrante
+    let displacementXA = spawnSpaceX - 16; 
 
-    //Colocar invasores A en su posicion
     for(let rowA = 0; rowA< numRowsinvaderA ; rowA++)
     {
         for(let colA = 0; colA < numberOfAliensRow; colA++)
@@ -153,22 +148,19 @@ function createInvaders()
         }
     }
 
-    //Parametros para el invasor B
     let invaderBWidth = 22 * invaderScale;
     let invaderBHeight = 16 * invaderScale;
     let numRowsinvaderB = 2;
 
-    //Parametros de la posicion del invasor B
     let spaceBetweenInvadersB = spaceBetweenInvaders - 2 * 22;
-    let displacementXB = spawnSpaceX - 22; //Se asigna espacio del primer cuadrante
+    let displacementXB = spawnSpaceX - 22; 
 
-    //Colocar invasores B en su posicion
     for(let rowB = 0; rowB< numRowsinvaderB; rowB++)
     {
         for(let colB = 0; colB < numberOfAliensRow; colB++)
         {
             const x = colB *(invaderBWidth + spaceBetweenInvadersB) + displacementXB
-            const y = (rowB + 1) *(invaderBHeight + spaceBetweenRows) + displacementY //Le sumamos a rowC 1 lineas, ya que empieza en la linea 1 (empezando desde el 0)
+            const y = (rowB + 1) *(invaderBHeight + spaceBetweenRows) + displacementY 
             const invader = new Invader(x, y, invaderScale, rowB+1);
             invader.row = rowB + 1;
             invader.column = colB;
@@ -177,21 +169,18 @@ function createInvaders()
         }
     }
 
-    //Parametros para el invasor C
     let invaderCWidth = 24 * invaderScale;
     let invaderCHeight = 16 * invaderScale;
     let numRowsinvaderC = 2;
-    //Parametros de la posicion del invasor C
     let spaceBetweenInvadersC = spaceBetweenInvaders - 2 * 24;
-    let displacementXC = spawnSpaceX -  24; //Se asigna espacio del primer cuadrante
+    let displacementXC = spawnSpaceX -  24; 
 
-    //Colocar invasores C en su posicion
     for(let rowC = 0; rowC< numRowsinvaderC; rowC++)
     {
         for(let colC = 0; colC < numberOfAliensRow; colC++)
         {
             const x = colC *(invaderCWidth + spaceBetweenInvadersC) + displacementXC
-            const y = (rowC + 3) *(invaderCHeight + spaceBetweenRows) + displacementY //Le sumamos a rowC 3 lineas, ya que empieza en la linea 3 (empezando desde el 0)
+            const y = (rowC + 3) *(invaderCHeight + spaceBetweenRows) + displacementY 
             const invader = new Invader(x, y, invaderScale, rowC+3);
             invader.row = rowC + 3;
             invader.column = colC;
