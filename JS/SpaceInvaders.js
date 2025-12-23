@@ -114,7 +114,9 @@ let frontInvaders = []; //Se crea un array para los invaders que pueden disparar
 let numInvadersDead = 0;
 let needsToChangeDirection = false;
 let numInvaders = 55;
-let movementY = 12;
+let movementY = 20;
+let hasReachTheFloor = false;
+
 
 
 function createInvaders()
@@ -264,7 +266,7 @@ function update(dt)
             {
                 if (invader.isActive && invader.isAlive)
                 {
-                    invader.y += 5;             
+                    invader.y += movementY;             
                     invader.movementX *= -1;
                 }   
             }
@@ -276,6 +278,10 @@ function update(dt)
             let invaderShooterIndex = Math.floor(Math.random() * frontInvaders.length);
             frontInvaders[invaderShooterIndex].invaderShoot();
             invadersShootCooldown = 1.5;
+        }
+        if(hasReachTheFloor)
+        {
+            gameLifePoints = 0;
         }
     }
     else{

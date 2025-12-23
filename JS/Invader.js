@@ -242,7 +242,11 @@ class Invader extends GameObject {
 			{
     			needsToChangeDirection = true;
     			this.isCollidingWithLimit = true;
-			}		
+			}
+			if(this.y>=canvas.height)
+			{
+				hasReachTheFloor = true;
+			}
 		}
     }
 }

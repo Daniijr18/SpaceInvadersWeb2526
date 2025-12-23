@@ -94,7 +94,7 @@ class SpaceShip extends GameObject {
         let m_PlayerProjectile = new PlayerProjectile(this.x+24,this.y,this.z);
         addGameObject(m_PlayerProjectile);
         console.log("New projectile");
-        this.shootCoolDown = 1.5; 
+        this.shootCoolDown = 0.5; 
     }
     hitByShot()
     {
